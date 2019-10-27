@@ -27,6 +27,9 @@
           href="{{asset('template/assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css')}}">
 
     <link rel="stylesheet" href="{{asset('template/bootstrap-fileinput.css')}}">
+
+    <link rel="stylesheet" href="{{asset('template/assets/plugins/fullcalendar/fullcalendar.min.css')}}">
+
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
     <style>
         pre.prettyprint {
@@ -1023,5 +1026,13 @@
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });
 </script>
+
+{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>--}}
+{{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>--}}
+{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>--}}
+
+<script src="{{asset('template/light/assets/bundles/fullcalendarscripts.bundle.js')}}"></script><!--/ calender javascripts -->
+<script src="{{asset('template/light/assets/js/pages/calendar/calendar.js')}}"></script>
+
 </body>
 </html>

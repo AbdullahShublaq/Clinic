@@ -224,7 +224,7 @@ class AdminController extends Controller
             $status = $admin_login->save();
         }
 
-        return redirect('admin/' . $admin->id)->with('update_admin_status', $status);
+        return redirect('admin/' . $admin->id .'/edit')->with('update_admin_status', $status);
 
     }
 

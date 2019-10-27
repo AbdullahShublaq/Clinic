@@ -11,7 +11,7 @@
                 </div>
                 <div class="col-lg-5 col-md-7 col-sm-12">
                     <ul class="breadcrumb float-md-right">
-                        <li class="breadcrumb-item"><a href="{{ url('home') }}"><i class="zmdi zmdi-home"></i>
+                        <li class="breadcrumb-item"><a href="{{ url('dashboard') }}"><i class="zmdi zmdi-home"></i>
                                 Clinic</a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Admins</a></li>
                         <li class="breadcrumb-item active">All</li>
@@ -157,7 +157,7 @@
                                                         {{--</button>--}}
                                                         <button class="btn btn-icon btn-neutral btn-icon-mini"
                                                                 title="Edit">
-                                                            <a href="{{url('admin/'.$admin->id)}}">
+                                                            <a href="{{url('admin/'.$admin->id.'/edit')}}">
                                                                 <i class="zmdi zmdi-edit"></i>
                                                             </a>
                                                         </button>

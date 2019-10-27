@@ -33,4 +33,6 @@ class PatientController2 extends Controller
         $path = storage_path('app/public/patients_files');
         $file->move($path, $file_name);
     }
+
+
 }

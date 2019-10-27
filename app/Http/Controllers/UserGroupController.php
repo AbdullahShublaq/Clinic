@@ -232,7 +232,7 @@ class UserGroupController extends Controller
 
         }
 
-        return redirect('usergroup/' . $id)->with('update_usergroup_status', $status)->with('usergroup_name', $request['user_group_name']);
+        return redirect('usergroup/' . $id .'/edit')->with('update_usergroup_status', $status)->with('usergroup_name', $request['user_group_name']);
     }
 
     /**

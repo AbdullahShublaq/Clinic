@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Appointment;
 use App\Patient;
 use DateTime;
+use http\Env\Response;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller
@@ -146,11 +147,18 @@ class PatientController extends Controller
      * Display the specified resource.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function show($id)
     {
         //
+        $status = false;
+        $patient = Patient::find($id);
+        if(isset($patient)){
+            $status = true;
+        }
+        $responce = array("status" => $status, "patient" => $patient);
+        return $responce;
     }
 
     /**
@@ -214,7 +222,7 @@ class PatientController extends Controller
             $patient->file = $file_name;
         }
 
-        $patient->created_by = session('id');
+        $patient->updated_by = session('id');
         $patient->p_id = "AA123";
 
         $status = $patient->save();
@@ -227,7 +235,7 @@ class PatientController extends Controller
                 $patient_controller_2->upload_patient_file($file, $file_name);;
             }
         }
-        return redirect('patient/' . $patient->id)->with('update_patient_status', $status)->with('patient_name', $patient->name);
+        return redirect('patient/' . $patient->id .'/edit')->with('update_patient_status', $status)->with('patient_name', $patient->name);
     }
 
     /**

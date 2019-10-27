@@ -11,7 +11,7 @@
                 </div>
                 <div class="col-lg-5 col-md-7 col-sm-12">
                     <ul class="breadcrumb float-md-right">
-                        <li class="breadcrumb-item"><a href="{{ url('home') }}"><i class="zmdi zmdi-home"></i>
+                        <li class="breadcrumb-item"><a href="{{ url('dashboard') }}"><i class="zmdi zmdi-home"></i>
                                 Clinic</a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Appointments</a></li>
                         <li class="breadcrumb-item active">All</li>
@@ -56,7 +56,7 @@
                                     {{--01d8da--}}
                                     <ul class="nav nav-tabs padding-0" style="display: inline-block">
                                         <li class="nav-item">
-                                            <a class="nav-link active" href="{{url('patient/add')}}"
+                                            <a class="nav-link active" href="{{url('appointment/add')}}"
                                                style="color:white; background-color:#01d8da">
                                                 <i class="zmdi zmdi-plus-circle"></i> Add Appointment
                                             </a>
@@ -99,7 +99,7 @@
                                                 <th>Patient ID</th>
                                                 <th>Name</th>
                                                 <th>Visit Date</th>
-                                                <th>Invoice</th>
+                                                <th class="text-center">Invoice</th>
                                                 <th class="text-center">Status</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
@@ -115,40 +115,60 @@
                                                                  @if(is_null($appointment->image))
                                                                  src="{{url('storage/patients_images/default-avatar.png')}}"
                                                                  @else
-                                                                 src="{{url('storage/patients_images/'.$patient->image)}}"
+                                                                 src="{{url('storage/patients_images/'.$appointment->image)}}"
                                                                  @endif
                                                                  alt="">
                                                         </span>
                                                     </td>
                                                     <td>{{ $appointment->p_id }}</td>
                                                     <td>{{ $appointment->name }}</td>
-                                                    <td>{{ $appointment->visit_date}}</td>
-                                                    <td><a href="">Show</a></td>
-                                                    {{--date("Y-m-d h:i:s")--}}
+                                                    <td>{{ $appointment->visit_date }}</td>
 
+                                                    @if(is_null($appointment->invoice))
+                                                        <td class="text-center">-</td>
+                                                    @else
+                                                        <td class="text-center">
+                                                            <button title="show invoice"
+                                                                    value="{{ $appointment->invoice }}"
+                                                                    class="btn btn-icon btn-neutral btn-icon-mini show_invoice">
+                                                                <i class="zmdi zmdi-reader"></i>
+                                                            </button>
+                                                        </td>
+                                                    @endif
                                                     {{--if ($date1 > $date2)--}}
                                                     {{--echo "$date1 is latest than $date2";--}}
                                                     {{--else--}}
                                                     {{--echo "$date1 is older than $date2";--}}
-
+                                                    @php
+                                                            date_default_timezone_set('Asia/Gaza');
+                                                            $current_date = date("Y-m-d H:i:s");
+                                                    @endphp
                                                     <td class="text-center">
-                                                        <i style="color: #00C853;"
-                                                           class="zmdi zmdi-check-circle"></i>
-                                                        {{--<i style="color: red;"--}}
-                                                           {{--class="zmdi zmdi-close-circle"></i>--}}
-                                                        {{--<i style="color: #f0f000;"--}}
-                                                           {{--class="zmdi zmdi-alert-circle"></i>--}}
-                                                        {{--{{$appointment->status}}--}}
+                                                        @if($appointment->status == 1)
+                                                            {{--<i style="color: #00C853;"--}}
+                                                            {{--class="zmdi zmdi-check-circle"></i>--}}
+                                                            <span class="badge badge-success">Done</span>
+                                                        @else
+                                                            @if($current_date > $appointment->visit_date)
+                                                                {{--<i style="color: red;"--}}
+                                                                {{--class="zmdi zmdi-close-circle"></i>--}}
+                                                                <span class="badge badge-danger">Not Come</span>
+                                                            @else
+                                                                {{--<i style="color: #f0f000;"--}}
+                                                                {{--class="zmdi zmdi-alert-circle"></i>--}}
+                                                                <span class="badge badge-warning">Come Later</span>
+                                                            @endif
+                                                        @endif
                                                     </td>
                                                     <td class="text-center">
-                                                        <button id="remove_patient"
+                                                        <button id="show_appointment"
                                                                 class="btn btn-icon btn-neutral btn-icon-mini show_appointment"
-                                                                title="Show" value="{{$appointment->id}}">
+                                                                title="Info" value="{{$appointment->patient_id}}">
                                                             <i class="zmdi zmdi-eye"></i>
                                                         </button>
                                                         <button class="btn btn-icon btn-neutral btn-icon-mini"
                                                                 title="Edit">
-                                                            <a href="{{url('patient/'.$appointment->id)}}">
+                                                            <a href="{{url('appointment/'.$appointment->id.'/edit')}}">
                                                                 <i class="zmdi zmdi-edit"></i>
                                                             </a>
                                                         </button>
@@ -164,7 +184,6 @@
                                         </table>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -200,7 +219,7 @@
                             if (response.status) {
                                 swal({
                                     title: "Deleted",
-                                    text: "<strong style=\"color: #8CD4F5\">(" + response.name + ")</strong> Deleted Successfully .",
+                                    text: "<strong style=\"color: #8CD4F5\">(" + response.time + ")</strong> Deleted Successfully .",
                                     html: true,
                                     type: "success",
                                     showCancelButton: false,
@@ -213,7 +232,7 @@
                             } else {
                                 swal({
                                     title: "Failed!",
-                                    text: "<strong style=\"color: #8CD4F5\">(" + response.name + ")</strong> Deleted Failed! Try Again.",
+                                    text: "<strong style=\"color: #8CD4F5\">(" + response.time + ")</strong> Deleted Failed! Try Again.",
                                     html: true,
                                     type: "error",
                                 });
@@ -222,12 +241,92 @@
                         error: function (response) {
                             swal({
                                 title: "Failed!",
-                                text: "<strong style=\"color: #8CD4F5\">(" + response.name + ")</strong> Deleted Failed! Try Again.",
+                                text: "<strong style=\"color: #8CD4F5\">(" + response.time + ")</strong> Deleted Failed2! Try Again.",
                                 html: true,
                                 type: "error",
                             });
                         }
                     });
+                });
+            });
+
+            $(".show_invoice").click(function () {
+                var invoice = $(this).val();
+                swal({
+                    title: "<spna style='color: #8CD4F5'>Invoice Description...</span>",
+                    text: "<textarea rows='15' class='form-control no-resize' style='background-color: white!important; cursor: auto!important;' readonly>" + invoice + "</textarea>",
+                    html: true
+                });
+            });
+
+            $(".show_appointment").click(function () {
+                var id = $(this).val();
+
+                $.ajax({
+                    url: "{{ URL('patient') }}/" + id,
+                    type: "GET",
+                    success: function (response) {
+                        if (response.status) {
+                            // alert(response.patient.image);
+                            image = null;
+                            if ((response.patient.image) == null) {
+                                image = "{{url('storage/patients_images/default-avatar.png')}}";
+                            } else {
+                                image = "{{url('storage/patients_images')}}/" + response.patient.image;
+                            }
+                            // alert(image);
+                            swal({
+                                title: "<span style='color: #8CD4F5'>Patient Information...</span>",
+                                text: "<div class=\"card member-card\">\n" +
+                                    "                    <div class=\"header l-coral\">\n" +
+                                    "                        <h4 class=\"m-t-10\">" + response.patient.name + "</h4>\n" +
+                                    "                    </div>\n" +
+                                    "                    <div class=\"member-img\">\n" +
+                                    "                        <a>\n" +
+                                    "                        <img class=\"patients-img rounded-circle\"\n" +
+                                    "                             src=" + image + "\n" +
+                                    "                             alt=\"\">\n" +
+                                    "                        </a>\n" +
+                                    "                    </div>\n" +
+                                    "                    <div class=\"body\">\n" +
+                                    "                        <strong>Patient_id</strong>\n" +
+                                    "                        <p style=\"margin-top: 5px;\">" + response.patient.p_id + "</p>\n" +
+                                    "                        <br>" +
+                                    "                        <strong>Date Of Birth</strong>\n" +
+                                    "                        <p style=\"margin-top: 5px;\">" + response.patient.dob + "</p>\n" +
+                                    "                        <br>" +
+                                    "                        <strong>Phone</strong>\n" +
+                                    "                        <p style=\"margin-top: 5px;\">" + response.patient.phone_no + "</p>\n" +
+                                    "                        <br>" +
+                                    "                        <hr>\n" +
+                                    "                        <strong>Health File</strong>\n" +
+                                    "                        <p style=\"margin-top: 5px;\">" +
+                                    "                           <a href=\"{{url('storage/patients_files')}}/" + response.patient.file + " \"\n" +
+                                    "                              download style=\"text-decoration: underline\">" +
+                                    "                              <i class=\"zmdi zmdi-download\">&ensp;Download</i>" +
+                                    "                           </a>" +
+                                    "                        </p>\n" +
+                                    "                    </div>\n" +
+                                    "                </div>",
+                                html: true,
+                            });
+                        } else {
+                            swal({
+                                title: "Failed!",
+                                text: "<strong style=\"color: #8CD4F5\"></strong> Not Found! Try Again.",
+                                html: true,
+                                type: "error",
+                            });
+                        }
+                    },
+                    error: function (response) {
+                        swal({
+                            title: "Failed!",
+                            text: "<strong style=\"color: #8CD4F5\">(" + response.time + ")</strong> Deleted Failed! Try Again.",
+                            html: true,
+                            type: "error",
+                        });
+                    }
                 });
             });
         });

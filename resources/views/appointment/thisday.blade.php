@@ -266,12 +266,12 @@
                     },
                     error: function (response) {
                         alert(response.responseText)
-                        // swal({
-                        //     title: "Failed!",
-                        //     text: "<strong style=\"color: #8CD4F5\">Failed! Try Again.</strong>",
-                        //     html: true,
-                        //     type: "error",
-                        // });
+                        swal({
+                            title: "Failed!",
+                            text: "<strong style=\"color: #8CD4F5\">Failed! Try Again.</strong>",
+                            html: true,
+                            type: "error",
+                        });
                     }
                 });
             });

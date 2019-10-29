@@ -21,7 +21,8 @@ class CheckUserGroup
         if ((new SectionController)->check($url)) {
             return $next($request);
         } else {
-            return redirect()->back();
+            return abort(404);
+//            return redirect()->back();
         }
     }
 }

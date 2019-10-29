@@ -29,7 +29,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h2><strong>{{$admin->name}}</strong> </h2>
+                                <h2><strong>{{$admin->name}}</strong></h2>
                             </div>
                             @if (null !== session('update_admin_status'))
                                 @if (session('update_admin_status'))
@@ -86,9 +86,9 @@
                                                      style="width: 200px; height: 150px;">
                                                     <img
                                                             @if(is_null($admin->image))
-                                                                src="{{url('storage/admins_images/default-avatar.png')}}"
+                                                            src="{{url('storage/admins_images/default-avatar.png')}}"
                                                             @else
-                                                                src="{{url('storage/admins_images/'.$admin->image)}}"
+                                                            src="{{url('storage/admins_images/'.$admin->image)}}"
                                                             @endif                                                         alt=""/>
                                                 </div>
                                                 <div class="fileinput-preview fileinput-exists thumbnail"
@@ -157,7 +157,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>

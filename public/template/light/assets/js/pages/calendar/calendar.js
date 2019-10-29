@@ -133,7 +133,7 @@ $('#calendar').fullCalendar({
         right: 'next'
     },
     defaultDate: today,
-    editable: true,
+    editable: false,
     droppable: true, // this allows things to be dropped onto the calendar
     drop: function () {
         // is the "remove after drop" checkbox checked?

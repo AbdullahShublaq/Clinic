@@ -46,7 +46,6 @@
                                 @endif
                             @endif
                         @endif
-
                         <div class="body">
                             <form action="{{url('appointment/store')}}" method="POST">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -54,11 +53,20 @@
                                 <div class="row clearfix">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <input type="text" name="patient_id" class="form-control"
-                                                   placeholder="Patient ID"
-                                                   value="{{ old('patient_id', '') }}">
+                                            {{--<input type="text" name="patient_id" class="form-control"--}}
+                                            {{--placeholder="Patient ID"--}}
+                                            {{--value="{{ old('patient_id', '') }}">--}}
+                                            {{--</div>--}}
+                                            <select name="patient_id" class="form-control z-index show-tick"
+                                                    data-live-search="true">
+                                                <option value="0" selected disabled>-Select Patient-</option>
+                                                @foreach($patients as $patient)
+                                                    <option value="{{$patient->p_id}}">{{$patient->p_id}}
+                                                        , {{$patient->name}}</option>
+                                                @endforeach
+                                            </select>
+                                            <span style="color: red;">{{ $errors->first('patient_id') }}</span>
                                         </div>
-                                        <span style="color: red;">{{ $errors->first('patient_id') }}</span>
                                     </div>
                                     <br>
                                     <div class="col-sm-12">

@@ -58,8 +58,8 @@ class AppointmentController extends Controller
 ////            'user' => 'user',
 ////            'time' => '2019-04-29'
 ////        ]);
-
-        return view('appointment.add', ['hello' => 'hello']);
+        $patients = Patient::select('name', 'p_id')->get();
+        return view('appointment.add', ['hello' => 'hello'])->with('patients', $patients);
     }
 
     /**
@@ -75,11 +75,12 @@ class AppointmentController extends Controller
         $found = false;
 
         $validate = $request->validate([
-            "patient_id" => 'required',
+            "patient_id" => 'required|not_in:0',
             "visit_date" => 'required|date_format:Y-m-d',
             "visit_time" => 'required|date_format:H:i:s',
         ], [
             'patient_id.required' => '* patient id is required',
+            'patient_id.not_in:0' => '* patient id is required',
             'visit_date.required' => '* visit date is required',
             'visit_date.date_format' => '* invalid date format. Must be Y-m-d',
             'visit_time.required' => '* visit time is required',

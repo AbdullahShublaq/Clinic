@@ -34,23 +34,10 @@
                                 <div class="card">
                                     <div class="body">
                                         <div id="Status">
-                                            @if (null !== session('add_appointment_status'))
-                                                @if (session('add_appointment_status'))
-                                                    <div class="alert alert-success">
-                                                        <strong>{{session('patient_id')}}</strong> Added Successfully .
-                                                    </div>
-                                                @else
-                                                    @if (session('found'))
-                                                        <div class="alert alert-success">
-                                                            <strong>{{session('patient_id')}}</strong> Added Failed .
-                                                        </div>
-                                                    @else
-                                                        <div class="alert alert-danger">
-                                                            <strong>{{session('patient_id')}}</strong> Not Found!.
-                                                        </div>
-                                                    @endif
-                                                @endif
-                                            @endif
+
+                                            <div class="header">
+                                                <h2><strong>Table</strong> View</h2>
+                                            </div>
 
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="Doctors">
@@ -157,10 +144,10 @@
                                     <div class="ol-md-12 col-lg-12 col-xl-12">
                                         <div class="card">
                                             <div class="header">
-                                                <h2><strong> This Day</strong> Appointments</h2>
+                                                <h2><strong>Calendar</strong> View</h2>
                                             </div>
                                             <div class="body">
-                                                <div id="calendar"></div>
+                                                <div id="calendar" style="max-width: none;!important;"></div>
                                             </div>
                                         </div>
                                     </div>
